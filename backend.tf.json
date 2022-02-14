@@ -3,11 +3,10 @@
     {
       "backend": [
         {
-          "s3": [
+          "gcs": [
             {
-              "bucket": "terraform-state-d0br1zv5cn76nt785nl9u3w3dnhntu8yvn3k4shxf887u",
-              "key": "terraform/state",
-              "region": "us-west-2"
+              "bucket": "terraform-state-5sslf6tmg1y5eol95akivwc6jwzn6gcpcjatiwolzq102",
+              "prefix": "terraform/state"
             }
           ]
         }

@@ -3,9 +3,9 @@
     {
       "required_providers": [
         {
-          "aws": {
-            "source": "hashicorp/aws",
-            "version": ">= 2.7.0"
+          "google": {
+            "source": "hashicorp/google",
+            "version": ">= 4.10.0"
           }
         }
       ]
@@ -13,44 +13,42 @@
   ],
   "provider": [
     {
-      "aws": [
+      "google": [
         {
-          "region": "us-west-1"
+          "region": "uswest-1"
         }
       ]
     }
   ],
   "resource": [
     {
-      "aws_s3_bucket": [
+      "google_storage_bucket": [
         {
           "terraform_backend_bucket": [
             {
-              "bucket": "terraform-state-d0br1zv5cn76nt785nl9u3w3dnhntu8yvn3k4shxf887u"
+              "location": "uswest-1",
+              "name": "terraform-state-5sslf6tmg1y5eol95akivwc6jwzn6gcpcjatiwolzq102"
             }
           ]
         }
       ]
     },
     {
-      "aws_instance": [
+      "google_compute_instance": [
         {
-          "myEc2Instance": [
+          "myInstance": [
             {
-              "ami": "ami-0341aeea105412b57",
-              "instance_type": "t2.micro"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "aws_instance": [
-        {
-          "myEc2Instance2": [
-            {
-              "ami": "ami-0341aeea105412b57",
-              "instance_type": "t2.micro"
+              "name": "myInstance",
+              "machine_type": "n1-standard-1",
+              "zone": "uswest-1",
+              "network_interface": {
+                "network": "default"
+              },
+              "boot_disk": {
+                "initialize_params": {
+                  "image": "ubuntu-2004-focal-v20220204"
+                }
+              }
             }
           ]
         }
