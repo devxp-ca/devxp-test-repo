@@ -1,0 +1,17 @@
+{
+  "terraform": [
+    {
+      "backend": [
+        {
+          "s3": [
+            {
+              "bucket": "terraform-state-d0br1zv5cn76nt785nl9u3w3dnhntu8yvn3k4shxf887u",
+              "key": "terraform/state",
+              "region": "us-west-2"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
