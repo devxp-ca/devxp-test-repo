@@ -1,0 +1,16 @@
+{
+  "terraform": [
+    {
+      "backend": [
+        {
+          "gcs": [
+            {
+              "bucket": "terraform-state-8yluwcp1qcgtufwwk2fqkwbhyyti9ap5gxn9qha40yv1m",
+              "prefix": "terraform/state"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
