@@ -1,0 +1,59 @@
+{
+  "terraform": [
+    {
+      "required_providers": [
+        {
+          "google": {
+            "source": "hashicorp/google",
+            "version": ">= 4.10.0"
+          }
+        }
+      ]
+    }
+  ],
+  "provider": [
+    {
+      "google": [
+        {
+          "project": "devxp-test-project",
+          "region": "uswest-1"
+        }
+      ]
+    }
+  ],
+  "resource": [
+    {
+      "google_storage_bucket": [
+        {
+          "terraform_backend_bucket": [
+            {
+              "location": "uswest-1",
+              "name": "terraform-state-gpnzi4m8hllbofbju7dcuvu1i2efo10gyjaxah8z5v50e"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "google_compute_instance": [
+        {
+          "myEc2Instance": [
+            {
+              "name": "myEc2Instance",
+              "machine_type": "f1-micro",
+              "zone": "uswest-1",
+              "network_interface": {
+                "network": "default"
+              },
+              "boot_disk": {
+                "initialize_params": {
+                  "image": "ubuntu-2004-focal-v20220204"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
