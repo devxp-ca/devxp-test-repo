@@ -26,7 +26,7 @@
         {
           "terraform_backend_bucket": [
             {
-              "bucket": "terraform-state-fl09l8ec3rtjpfs20ev9u8wb5ejx66w6jcgw14mifyu9r"
+              "bucket": "terraform-state-2sg2f841mqzulxom3bzo496rym4zzcbyb2qpk4k0cw5gx"
             }
           ]
         }
