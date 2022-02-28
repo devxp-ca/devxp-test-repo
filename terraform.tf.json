@@ -26,7 +26,7 @@
         {
           "terraform_backend_bucket": [
             {
-              "bucket": "terraform-state-2sg2f841mqzulxom3bzo496rym4zzcbyb2qpk4k0cw5gx"
+              "bucket": "terraform-state-wad7a4dxu4g8ia3zeeo6of0p7guohmb6xjcqqko75fwg0"
             }
           ]
         }
@@ -35,9 +35,9 @@
     {
       "aws_instance": [
         {
-          "testDB": [
+          "KeanuTest": [
             {
-              "ami": "ami-0892d3c7ee96c0bf7",
+              "ami": "ami-0ab399fb9d53c302f",
               "instance_type": "t2.micro"
             }
           ]
