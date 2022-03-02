@@ -26,7 +26,7 @@
         {
           "terraform_backend_bucket": [
             {
-              "bucket": "terraform-state-wad7a4dxu4g8ia3zeeo6of0p7guohmb6xjcqqko75fwg0"
+              "bucket": "terraform-state-mbqpfuqahxf6trf9rkiwc4eh1suoqdhkbiyjuvkamk4ac"
             }
           ]
         }
@@ -35,10 +35,80 @@
     {
       "aws_instance": [
         {
-          "KeanuTest": [
+          "test": [
             {
-              "ami": "ami-0ab399fb9d53c302f",
+              "ami": "ami-0341aeea105412b57",
               "instance_type": "t2.micro"
+            }
+          ]
+        }
+      ]
+    },
+    [
+      {
+        "aws_iam_user": [
+          {
+            "test_iam": [
+              {
+                "name": "test_iam"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "aws_iam_user_policy_attachment": [
+          {
+            "test_iam_policy_attachment0": [
+              {
+                "user": "${aws_iam_user.test_iam.name}",
+                "policy_arn": "${aws_iam_policy.test_policy_document.arn}"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "aws_iam_access_key": [
+          {
+            "test_iam_access_key": [
+              {
+                "user": "${aws_iam_user.test_iam.name}"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  ],
+  "data": [
+    {
+      "aws_iam_policy_document": [
+        {
+          "test_policy_document": [
+            {
+              "statement": [
+                {
+                  "actions": [
+                    "ec2:RunInstances",
+                    "ec2:AssociateIamInstanceProfile",
+                    "ec2:ReplaceIamInstanceProfileAssociation"
+                  ],
+                  "effect": "Allow",
+                  "resources": [
+                    "arn:aws:ec2:::*"
+                  ]
+                },
+                {
+                  "actions": [
+                    "iam:PassRole"
+                  ],
+                  "effect": "Allow",
+                  "resources": [
+                    "${aws_instance.test.arn}"
+                  ]
+                }
+              ]
             }
           ]
         }
