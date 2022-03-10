@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_backend_bucket" {
-      bucket = "terraform-state-k77imypt89o566j4e103cbjg4exhvnqzv9b9nhltyxzld"
+      bucket = "terraform-state-8aot5f4ouq8wtvbx2slzc8dnxnx72gm5rjijscha7fiaa"
 }
 
 resource "aws_instance" "server" {
@@ -159,62 +159,62 @@ resource "aws_iam_access_key" "server-c_iam_access_key" {
       user = aws_iam_user.server-c_iam.name
 }
 
-resource "aws_s3_bucket" "storage" {
-      bucket = "storage"
+resource "aws_s3_bucket" "storage-devxp-class-a" {
+      bucket = "storage-devxp-class-a"
 }
 
-resource "aws_s3_bucket_public_access_block" "storage_access" {
-      bucket = aws_s3_bucket.storage.id
+resource "aws_s3_bucket_public_access_block" "storage-devxp-class-a_access" {
+      bucket = aws_s3_bucket.storage-devxp-class-a.id
       block_public_acls = true
       block_public_policy = true
 }
 
-resource "aws_iam_user" "storage_iam" {
-      name = "storage_iam"
+resource "aws_iam_user" "storage-devxp-class-a_iam" {
+      name = "storage-devxp-class-a_iam"
 }
 
-resource "aws_iam_user_policy_attachment" "storage_iam_policy_attachment0" {
-      user = aws_iam_user.storage_iam.name
-      policy_arn = aws_iam_policy.storage_iam_policy0.arn
+resource "aws_iam_user_policy_attachment" "storage-devxp-class-a_iam_policy_attachment0" {
+      user = aws_iam_user.storage-devxp-class-a_iam.name
+      policy_arn = aws_iam_policy.storage-devxp-class-a_iam_policy0.arn
 }
 
-resource "aws_iam_policy" "storage_iam_policy0" {
-      name = "storage_iam_policy0"
+resource "aws_iam_policy" "storage-devxp-class-a_iam_policy0" {
+      name = "storage-devxp-class-a_iam_policy0"
       path = "/"
-      policy = data.aws_iam_policy_document.storage_iam_policy_document.json
+      policy = data.aws_iam_policy_document.storage-devxp-class-a_iam_policy_document.json
 }
 
-resource "aws_iam_access_key" "storage_iam_access_key" {
-      user = aws_iam_user.storage_iam.name
+resource "aws_iam_access_key" "storage-devxp-class-a_iam_access_key" {
+      user = aws_iam_user.storage-devxp-class-a_iam.name
 }
 
-resource "aws_s3_bucket" "storage-a" {
-      bucket = "storage-a"
+resource "aws_s3_bucket" "storage-devxp-class" {
+      bucket = "storage-devxp-class"
 }
 
-resource "aws_s3_bucket_public_access_block" "storage-a_access" {
-      bucket = aws_s3_bucket.storage-a.id
+resource "aws_s3_bucket_public_access_block" "storage-devxp-class_access" {
+      bucket = aws_s3_bucket.storage-devxp-class.id
       block_public_acls = true
       block_public_policy = true
 }
 
-resource "aws_iam_user" "storage-a_iam" {
-      name = "storage-a_iam"
+resource "aws_iam_user" "storage-devxp-class_iam" {
+      name = "storage-devxp-class_iam"
 }
 
-resource "aws_iam_user_policy_attachment" "storage-a_iam_policy_attachment0" {
-      user = aws_iam_user.storage-a_iam.name
-      policy_arn = aws_iam_policy.storage-a_iam_policy0.arn
+resource "aws_iam_user_policy_attachment" "storage-devxp-class_iam_policy_attachment0" {
+      user = aws_iam_user.storage-devxp-class_iam.name
+      policy_arn = aws_iam_policy.storage-devxp-class_iam_policy0.arn
 }
 
-resource "aws_iam_policy" "storage-a_iam_policy0" {
-      name = "storage-a_iam_policy0"
+resource "aws_iam_policy" "storage-devxp-class_iam_policy0" {
+      name = "storage-devxp-class_iam_policy0"
       path = "/"
-      policy = data.aws_iam_policy_document.storage-a_iam_policy_document.json
+      policy = data.aws_iam_policy_document.storage-devxp-class_iam_policy_document.json
 }
 
-resource "aws_iam_access_key" "storage-a_iam_access_key" {
-      user = aws_iam_user.storage-a_iam.name
+resource "aws_iam_access_key" "storage-devxp-class_iam_access_key" {
+      user = aws_iam_user.storage-devxp-class_iam.name
 }
 
 resource "aws_dynamodb_table" "database" {
@@ -290,43 +290,43 @@ resource "aws_iam_role" "server-c_iam_role" {
       assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
 }
 
-resource "aws_iam_role_policy_attachment" "server_iam_role_storage_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.storage_iam_policy0.arn
+resource "aws_iam_role_policy_attachment" "server_iam_role_storage-devxp-class-a_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.storage-devxp-class-a_iam_policy0.arn
       role = aws_iam_role.server_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "server-a_iam_role_storage_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.storage_iam_policy0.arn
+resource "aws_iam_role_policy_attachment" "server-a_iam_role_storage-devxp-class-a_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.storage-devxp-class-a_iam_policy0.arn
       role = aws_iam_role.server-a_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "server-b_iam_role_storage_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.storage_iam_policy0.arn
+resource "aws_iam_role_policy_attachment" "server-b_iam_role_storage-devxp-class-a_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.storage-devxp-class-a_iam_policy0.arn
       role = aws_iam_role.server-b_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "server-c_iam_role_storage_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.storage_iam_policy0.arn
+resource "aws_iam_role_policy_attachment" "server-c_iam_role_storage-devxp-class-a_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.storage-devxp-class-a_iam_policy0.arn
       role = aws_iam_role.server-c_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "server_iam_role_storage-a_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.storage-a_iam_policy0.arn
+resource "aws_iam_role_policy_attachment" "server_iam_role_storage-devxp-class_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.storage-devxp-class_iam_policy0.arn
       role = aws_iam_role.server_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "server-a_iam_role_storage-a_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.storage-a_iam_policy0.arn
+resource "aws_iam_role_policy_attachment" "server-a_iam_role_storage-devxp-class_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.storage-devxp-class_iam_policy0.arn
       role = aws_iam_role.server-a_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "server-b_iam_role_storage-a_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.storage-a_iam_policy0.arn
+resource "aws_iam_role_policy_attachment" "server-b_iam_role_storage-devxp-class_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.storage-devxp-class_iam_policy0.arn
       role = aws_iam_role.server-b_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "server-c_iam_role_storage-a_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.storage-a_iam_policy0.arn
+resource "aws_iam_role_policy_attachment" "server-c_iam_role_storage-devxp-class_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.storage-devxp-class_iam_policy0.arn
       role = aws_iam_role.server-c_iam_role.name
 }
 
@@ -493,7 +493,7 @@ data "aws_iam_policy_document" "server-c_iam_policy_document" {
       }
 }
 
-data "aws_iam_policy_document" "storage_iam_policy_document" {
+data "aws_iam_policy_document" "storage-devxp-class-a_iam_policy_document" {
       statement {
         actions = ["s3:ListAllMyBuckets"]
         effect = "Allow"
@@ -502,11 +502,11 @@ data "aws_iam_policy_document" "storage_iam_policy_document" {
       statement {
         actions = ["s3:*"]
         effect = "Allow"
-        resources = [aws_s3_bucket.storage.arn]
+        resources = [aws_s3_bucket.storage-devxp-class-a.arn]
       }
 }
 
-data "aws_iam_policy_document" "storage-a_iam_policy_document" {
+data "aws_iam_policy_document" "storage-devxp-class_iam_policy_document" {
       statement {
         actions = ["s3:ListAllMyBuckets"]
         effect = "Allow"
@@ -515,7 +515,7 @@ data "aws_iam_policy_document" "storage-a_iam_policy_document" {
       statement {
         actions = ["s3:*"]
         effect = "Allow"
-        resources = [aws_s3_bucket.storage-a.arn]
+        resources = [aws_s3_bucket.storage-devxp-class.arn]
       }
 }
 
