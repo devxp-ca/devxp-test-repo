@@ -12,33 +12,98 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_backend_bucket" {
-      bucket = "terraform-state-geau4bziva9t58htz8vuszdl7le890pey4g5sn2kbr09o"
+      bucket = "terraform-state-13gwv76f17fh3nfbo0grlxhbr59bes9cvd5tom0sno7p4"
 }
 
-resource "aws_instance" "asdf" {
+resource "aws_instance" "bobs-server" {
       ami = data.aws_ami.amazon_latest.id
-      instance_type = "t2.micro"
+      instance_type = "t2.small"
       lifecycle {
         ignore_changes = [ami]
       }
       subnet_id = aws_subnet.devxp_vpc_subnet_public0.id
       associate_public_ip_address = true
       vpc_security_group_ids = [aws_security_group.devxp_security_group.id]
-      iam_instance_profile = aws_iam_instance_profile.asdf_iam_role_instance_profile.name
+      iam_instance_profile = aws_iam_instance_profile.bobs-server_iam_role_instance_profile.name
 }
 
-resource "aws_eip" "asdf_eip" {
-      instance = aws_instance.asdf.id
+resource "aws_eip" "bobs-server_eip" {
+      instance = aws_instance.bobs-server.id
       vpc = true
 }
 
-resource "aws_iam_instance_profile" "asdf_iam_role_instance_profile" {
-      name = "asdf_iam_role_instance_profile"
-      role = aws_iam_role.asdf_iam_role.name
+resource "aws_iam_user" "bobs-server_iam" {
+      name = "bobs-server_iam"
 }
 
-resource "aws_iam_role" "asdf_iam_role" {
-      name = "asdf_iam_role"
+resource "aws_iam_user_policy_attachment" "bobs-server_iam_policy_attachment0" {
+      user = aws_iam_user.bobs-server_iam.name
+      policy_arn = aws_iam_policy.bobs-server_iam_policy0.arn
+}
+
+resource "aws_iam_policy" "bobs-server_iam_policy0" {
+      name = "bobs-server_iam_policy0"
+      path = "/"
+      policy = data.aws_iam_policy_document.bobs-server_iam_policy_document.json
+}
+
+resource "aws_iam_access_key" "bobs-server_iam_access_key" {
+      user = aws_iam_user.bobs-server_iam.name
+}
+
+resource "aws_instance" "bobs-server-a" {
+      ami = data.aws_ami.amazon_latest.id
+      instance_type = "t2.small"
+      lifecycle {
+        ignore_changes = [ami]
+      }
+      subnet_id = aws_subnet.devxp_vpc_subnet_public0.id
+      associate_public_ip_address = true
+      vpc_security_group_ids = [aws_security_group.devxp_security_group.id]
+      iam_instance_profile = aws_iam_instance_profile.bobs-server-a_iam_role_instance_profile.name
+}
+
+resource "aws_eip" "bobs-server-a_eip" {
+      instance = aws_instance.bobs-server-a.id
+      vpc = true
+}
+
+resource "aws_iam_user" "bobs-server-a_iam" {
+      name = "bobs-server-a_iam"
+}
+
+resource "aws_iam_user_policy_attachment" "bobs-server-a_iam_policy_attachment0" {
+      user = aws_iam_user.bobs-server-a_iam.name
+      policy_arn = aws_iam_policy.bobs-server-a_iam_policy0.arn
+}
+
+resource "aws_iam_policy" "bobs-server-a_iam_policy0" {
+      name = "bobs-server-a_iam_policy0"
+      path = "/"
+      policy = data.aws_iam_policy_document.bobs-server-a_iam_policy_document.json
+}
+
+resource "aws_iam_access_key" "bobs-server-a_iam_access_key" {
+      user = aws_iam_user.bobs-server-a_iam.name
+}
+
+resource "aws_iam_instance_profile" "bobs-server_iam_role_instance_profile" {
+      name = "bobs-server_iam_role_instance_profile"
+      role = aws_iam_role.bobs-server_iam_role.name
+}
+
+resource "aws_iam_instance_profile" "bobs-server-a_iam_role_instance_profile" {
+      name = "bobs-server-a_iam_role_instance_profile"
+      role = aws_iam_role.bobs-server-a_iam_role.name
+}
+
+resource "aws_iam_role" "bobs-server_iam_role" {
+      name = "bobs-server_iam_role"
+      assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
+}
+
+resource "aws_iam_role" "bobs-server-a_iam_role" {
+      name = "bobs-server-a_iam_role"
       assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
 }
 
@@ -89,16 +154,35 @@ resource "aws_security_group" "devxp_security_group" {
       vpc_id = aws_vpc.devxp_vpc.id
       name = "devxp_security_group"
       ingress {
-        from_port = 0
-        to_port = 0
-        protocol = "-1"
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
       }
       egress {
-        from_port = 0
-        to_port = 0
-        protocol = "-1"
+        from_port = 80
+        to_port = 80
+        protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
+      }
+      egress {
+        from_port = 443
+        to_port = 443
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+      }
+}
+
+data "aws_iam_policy_document" "bobs-server_iam_policy_document" {
+      statement {
+        actions = ["ec2:RunInstances", "ec2:AssociateIamInstanceProfile", "ec2:ReplaceIamInstanceProfileAssociation"]
+        effect = "Allow"
+        resources = ["arn:aws:ec2:::*"]
+      }
+      statement {
+        actions = ["iam:PassRole"]
+        effect = "Allow"
+        resources = [aws_instance.bobs-server.arn]
       }
 }
 
@@ -112,6 +196,19 @@ data "aws_ami" "amazon_latest" {
       filter {
         name = "virtualization-type"
         values = ["hvm"]
+      }
+}
+
+data "aws_iam_policy_document" "bobs-server-a_iam_policy_document" {
+      statement {
+        actions = ["ec2:RunInstances", "ec2:AssociateIamInstanceProfile", "ec2:ReplaceIamInstanceProfileAssociation"]
+        effect = "Allow"
+        resources = ["arn:aws:ec2:::*"]
+      }
+      statement {
+        actions = ["iam:PassRole"]
+        effect = "Allow"
+        resources = [aws_instance.bobs-server-a.arn]
       }
 }
 
