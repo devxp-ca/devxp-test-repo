@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_backend_bucket" {
-      bucket = "terraform-state-wo1zaolfq082kh72e4x69kwgmoxyjnzvoj9n5f5gtzq66"
+      bucket = "terraform-state-61hw24urmqb15wki803gkr9insbkj1ltko93s1erbwi8v"
 }
 
 resource "aws_instance" "server" {
@@ -228,6 +228,7 @@ resource "aws_dynamodb_table" "database" {
       attribute {
         name = "username"
         type = "S"
+        _id = "622bddb928d802b90f6549b1"
       }
 }
 
@@ -397,12 +398,6 @@ resource "aws_security_group" "devxp_security_group" {
       vpc_id = aws_vpc.devxp_vpc.id
       name = "devxp_security_group"
       ingress {
-        from_port = 22
-        to_port = 22
-        protocol = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-      }
-      ingress {
         from_port = 80
         to_port = 80
         protocol = "tcp"
@@ -414,18 +409,7 @@ resource "aws_security_group" "devxp_security_group" {
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
       }
-      egress {
-        from_port = 80
-        to_port = 80
-        protocol = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-      }
-      egress {
-        from_port = 443
-        to_port = 443
-        protocol = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-      }
+      egress = []
 }
 
 data "aws_iam_policy_document" "server_iam_policy_document" {
