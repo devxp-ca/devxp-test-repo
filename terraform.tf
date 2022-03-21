@@ -12,7 +12,43 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_backend_bucket" {
-      bucket = "terraform-state-61hw24urmqb15wki803gkr9insbkj1ltko93s1erbwi8v"
+      bucket = "terraform-state-vamb76m8906f29w8pbu8bbv24bxte8v0fen3dyjaitx5v"
+}
+
+resource "aws_instance" "Instance-DVUZ" {
+      ami = data.aws_ami.ubuntu_latest.id
+      instance_type = "c3.8xlarge"
+      lifecycle {
+        ignore_changes = [ami]
+      }
+      subnet_id = aws_subnet.devxp_vpc_subnet_public0.id
+      associate_public_ip_address = true
+      vpc_security_group_ids = [aws_security_group.devxp_security_group.id]
+      iam_instance_profile = aws_iam_instance_profile.Instance-DVUZ_iam_role_instance_profile.name
+}
+
+resource "aws_eip" "Instance-DVUZ_eip" {
+      instance = aws_instance.Instance-DVUZ.id
+      vpc = true
+}
+
+resource "aws_iam_user" "Instance-DVUZ_iam" {
+      name = "Instance-DVUZ_iam"
+}
+
+resource "aws_iam_user_policy_attachment" "Instance-DVUZ_iam_policy_attachment0" {
+      user = aws_iam_user.Instance-DVUZ_iam.name
+      policy_arn = aws_iam_policy.Instance-DVUZ_iam_policy0.arn
+}
+
+resource "aws_iam_policy" "Instance-DVUZ_iam_policy0" {
+      name = "Instance-DVUZ_iam_policy0"
+      path = "/"
+      policy = data.aws_iam_policy_document.Instance-DVUZ_iam_policy_document.json
+}
+
+resource "aws_iam_access_key" "Instance-DVUZ_iam_access_key" {
+      user = aws_iam_user.Instance-DVUZ_iam.name
 }
 
 resource "aws_instance" "server" {
@@ -251,6 +287,11 @@ resource "aws_iam_access_key" "database_iam_access_key" {
       user = aws_iam_user.database_iam.name
 }
 
+resource "aws_iam_instance_profile" "Instance-DVUZ_iam_role_instance_profile" {
+      name = "Instance-DVUZ_iam_role_instance_profile"
+      role = aws_iam_role.Instance-DVUZ_iam_role.name
+}
+
 resource "aws_iam_instance_profile" "server_iam_role_instance_profile" {
       name = "server_iam_role_instance_profile"
       role = aws_iam_role.server_iam_role.name
@@ -269,6 +310,11 @@ resource "aws_iam_instance_profile" "server-b_iam_role_instance_profile" {
 resource "aws_iam_instance_profile" "server-c_iam_role_instance_profile" {
       name = "server-c_iam_role_instance_profile"
       role = aws_iam_role.server-c_iam_role.name
+}
+
+resource "aws_iam_role" "Instance-DVUZ_iam_role" {
+      name = "Instance-DVUZ_iam_role"
+      assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
 }
 
 resource "aws_iam_role" "server_iam_role" {
@@ -291,6 +337,11 @@ resource "aws_iam_role" "server-c_iam_role" {
       assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
 }
 
+resource "aws_iam_role_policy_attachment" "Instance-DVUZ_iam_role_storage-oeijfeijeo_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.storage-oeijfeijeo_iam_policy0.arn
+      role = aws_iam_role.Instance-DVUZ_iam_role.name
+}
+
 resource "aws_iam_role_policy_attachment" "server_iam_role_storage-oeijfeijeo_iam_policy0_attachment" {
       policy_arn = aws_iam_policy.storage-oeijfeijeo_iam_policy0.arn
       role = aws_iam_role.server_iam_role.name
@@ -311,6 +362,11 @@ resource "aws_iam_role_policy_attachment" "server-c_iam_role_storage-oeijfeijeo_
       role = aws_iam_role.server-c_iam_role.name
 }
 
+resource "aws_iam_role_policy_attachment" "Instance-DVUZ_iam_role_storage-oeijfeijeo-a_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.storage-oeijfeijeo-a_iam_policy0.arn
+      role = aws_iam_role.Instance-DVUZ_iam_role.name
+}
+
 resource "aws_iam_role_policy_attachment" "server_iam_role_storage-oeijfeijeo-a_iam_policy0_attachment" {
       policy_arn = aws_iam_policy.storage-oeijfeijeo-a_iam_policy0.arn
       role = aws_iam_role.server_iam_role.name
@@ -329,6 +385,11 @@ resource "aws_iam_role_policy_attachment" "server-b_iam_role_storage-oeijfeijeo-
 resource "aws_iam_role_policy_attachment" "server-c_iam_role_storage-oeijfeijeo-a_iam_policy0_attachment" {
       policy_arn = aws_iam_policy.storage-oeijfeijeo-a_iam_policy0.arn
       role = aws_iam_role.server-c_iam_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "Instance-DVUZ_iam_role_database_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.database_iam_policy0.arn
+      role = aws_iam_role.Instance-DVUZ_iam_role.name
 }
 
 resource "aws_iam_role_policy_attachment" "server_iam_role_database_iam_policy0_attachment" {
@@ -410,6 +471,32 @@ resource "aws_security_group" "devxp_security_group" {
         cidr_blocks = ["0.0.0.0/0"]
       }
       egress = []
+}
+
+data "aws_iam_policy_document" "Instance-DVUZ_iam_policy_document" {
+      statement {
+        actions = ["ec2:RunInstances", "ec2:AssociateIamInstanceProfile", "ec2:ReplaceIamInstanceProfileAssociation"]
+        effect = "Allow"
+        resources = ["arn:aws:ec2:::*"]
+      }
+      statement {
+        actions = ["iam:PassRole"]
+        effect = "Allow"
+        resources = [aws_instance.Instance-DVUZ.arn]
+      }
+}
+
+data "aws_ami" "ubuntu_latest" {
+      most_recent = true
+      owners = ["099720109477"]
+      filter {
+        name = "name"
+        values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64*"]
+      }
+      filter {
+        name = "virtualization-type"
+        values = ["hvm"]
+      }
 }
 
 data "aws_iam_policy_document" "server_iam_policy_document" {
