@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_backend_bucket" {
-      bucket = "terraform-state-42d5lwlpx441zdf88ssg6uyubiyzw628l3c4naqsjofln"
+      bucket = "terraform-state-qmnoo4wjj7hqdxvz8zh3tjpos5q528p89lxnj0lfll1ul"
 }
 
 resource "aws_instance" "Instance-ARqF" {
@@ -103,6 +103,7 @@ resource "aws_dynamodb_table" "DynamoDb-Azcw" {
       attribute {
         name = "username"
         type = "S"
+        _id = "623a37da0a84cbbcdeba62ba"
       }
 }
 
@@ -196,18 +197,8 @@ resource "aws_vpc" "devxp_vpc" {
 resource "aws_security_group" "devxp_security_group" {
       vpc_id = aws_vpc.devxp_vpc.id
       name = "devxp_security_group"
-      ingress {
-        from_port = 0
-        to_port = 0
-        protocol = "-1"
-        cidr_blocks = ["0.0.0.0/0"]
-      }
-      egress {
-        from_port = 0
-        to_port = 0
-        protocol = "-1"
-        cidr_blocks = ["0.0.0.0/0"]
-      }
+      ingress = []
+      egress = []
 }
 
 data "aws_ami" "amazon_latest" {
