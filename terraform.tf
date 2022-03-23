@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_backend_bucket" {
-      bucket = "terraform-state-9mbi2zk8cyli9v9os614z5ple9f4wfygb8gp2bd0xt4cy"
+      bucket = "terraform-state-pvh32oyssguy7xdy7qb3sspbg75nc2ee4eh84uslregq5"
 }
 
 resource "aws_instance" "Instance-ARqF" {
@@ -28,8 +28,8 @@ resource "aws_instance" "Instance-ARqF" {
 }
 
 resource "aws_eip" "Instance-ARqF_eip" {
-      instance = aws_instance.Instance-ARqF.id
       vpc = true
+      instance = aws_instance.Instance-ARqF.id
 }
 
 resource "aws_s3_bucket" "Bucket-olyu-sTDV-DGiq-crFo-vQQT" {
@@ -198,7 +198,18 @@ resource "aws_security_group" "devxp_security_group" {
       vpc_id = aws_vpc.devxp_vpc.id
       name = "devxp_security_group"
       ingress = []
-      egress = []
+      egress {
+        from_port = 80
+        to_port = 80
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+      }
+      egress {
+        from_port = 443
+        to_port = 443
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+      }
 }
 
 data "aws_ami" "amazon_latest" {
