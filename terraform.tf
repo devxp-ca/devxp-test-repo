@@ -12,10 +12,10 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_backend_bucket" {
-      bucket = "terraform-state-pvh32oyssguy7xdy7qb3sspbg75nc2ee4eh84uslregq5"
+      bucket = "terraform-state-861pystlfqnio39t31lf20q0ao0zcb1s8g0rtjoh3c1e4"
 }
 
-resource "aws_instance" "Instance-ARqF" {
+resource "aws_instance" "Instance-zouj" {
       ami = data.aws_ami.amazon_latest.id
       instance_type = "t2.micro"
       lifecycle {
@@ -24,131 +24,113 @@ resource "aws_instance" "Instance-ARqF" {
       subnet_id = aws_subnet.devxp_vpc_subnet_public0.id
       associate_public_ip_address = true
       vpc_security_group_ids = [aws_security_group.devxp_security_group.id]
-      iam_instance_profile = aws_iam_instance_profile.Instance-ARqF_iam_role_instance_profile.name
+      iam_instance_profile = aws_iam_instance_profile.Instance-zouj_iam_role_instance_profile.name
 }
 
-resource "aws_eip" "Instance-ARqF_eip" {
+resource "aws_eip" "Instance-zouj_eip" {
       vpc = true
-      instance = aws_instance.Instance-ARqF.id
+      instance = aws_instance.Instance-zouj.id
 }
 
-resource "aws_s3_bucket" "Bucket-olyu-sTDV-DGiq-crFo-vQQT" {
-      bucket = "Bucket-olyu-sTDV-DGiq-crFo-vQQT"
+resource "aws_iam_user" "Instance-zouj_iam" {
+      name = "Instance-zouj_iam"
 }
 
-resource "aws_s3_bucket_public_access_block" "Bucket-olyu-sTDV-DGiq-crFo-vQQT_access" {
-      bucket = aws_s3_bucket.Bucket-olyu-sTDV-DGiq-crFo-vQQT.id
+resource "aws_iam_user_policy_attachment" "Instance-zouj_iam_policy_attachment0" {
+      user = aws_iam_user.Instance-zouj_iam.name
+      policy_arn = aws_iam_policy.Instance-zouj_iam_policy0.arn
+}
+
+resource "aws_iam_policy" "Instance-zouj_iam_policy0" {
+      name = "Instance-zouj_iam_policy0"
+      path = "/"
+      policy = data.aws_iam_policy_document.Instance-zouj_iam_policy_document.json
+}
+
+resource "aws_iam_access_key" "Instance-zouj_iam_access_key" {
+      user = aws_iam_user.Instance-zouj_iam.name
+}
+
+resource "aws_s3_bucket" "bucket-ogys-qizw-bmzm-bbcb-ovxp" {
+      bucket = "bucket-ogys-qizw-bmzm-bbcb-ovxp"
+}
+
+resource "aws_s3_bucket_public_access_block" "bucket-ogys-qizw-bmzm-bbcb-ovxp_access" {
+      bucket = aws_s3_bucket.bucket-ogys-qizw-bmzm-bbcb-ovxp.id
       block_public_acls = true
       block_public_policy = true
 }
 
-resource "aws_iam_user" "Bucket-olyu-sTDV-DGiq-crFo-vQQT_iam" {
-      name = "Bucket-olyu-sTDV-DGiq-crFo-vQQT_iam"
+resource "aws_iam_user" "bucket-ogys-qizw-bmzm-bbcb-ovxp_iam" {
+      name = "bucket-ogys-qizw-bmzm-bbcb-ovxp_iam"
 }
 
-resource "aws_iam_user_policy_attachment" "Bucket-olyu-sTDV-DGiq-crFo-vQQT_iam_policy_attachment0" {
-      user = aws_iam_user.Bucket-olyu-sTDV-DGiq-crFo-vQQT_iam.name
-      policy_arn = aws_iam_policy.Bucket-olyu-sTDV-DGiq-crFo-vQQT_iam_policy0.arn
+resource "aws_iam_user_policy_attachment" "bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_policy_attachment0" {
+      user = aws_iam_user.bucket-ogys-qizw-bmzm-bbcb-ovxp_iam.name
+      policy_arn = aws_iam_policy.bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_policy0.arn
 }
 
-resource "aws_iam_policy" "Bucket-olyu-sTDV-DGiq-crFo-vQQT_iam_policy0" {
-      name = "Bucket-olyu-sTDV-DGiq-crFo-vQQT_iam_policy0"
+resource "aws_iam_policy" "bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_policy0" {
+      name = "bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_policy0"
       path = "/"
-      policy = data.aws_iam_policy_document.Bucket-olyu-sTDV-DGiq-crFo-vQQT_iam_policy_document.json
+      policy = data.aws_iam_policy_document.bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_policy_document.json
 }
 
-resource "aws_iam_access_key" "Bucket-olyu-sTDV-DGiq-crFo-vQQT_iam_access_key" {
-      user = aws_iam_user.Bucket-olyu-sTDV-DGiq-crFo-vQQT_iam.name
+resource "aws_iam_access_key" "bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_access_key" {
+      user = aws_iam_user.bucket-ogys-qizw-bmzm-bbcb-ovxp_iam.name
 }
 
-resource "aws_sns_topic" "Glacier-mtdR-VVVI-obyO-mUDG-LSUV_sns_topic" {
-      name = "Glacier-mtdR-VVVI-obyO-mUDG-LSUV_sns_topic"
-}
-
-resource "aws_glacier_vault" "Glacier-mtdR-VVVI-obyO-mUDG-LSUV" {
-      name = "Glacier-mtdR-VVVI-obyO-mUDG-LSUV"
-      notification {
-        sns_topic = aws_sns_topic.Glacier-mtdR-VVVI-obyO-mUDG-LSUV_sns_topic.arn
-        events = ["ArchiveRetrievalCompleted", "InventoryRetrievalCompleted"]
-      }
-}
-
-resource "aws_iam_user" "Glacier-mtdR-VVVI-obyO-mUDG-LSUV_iam" {
-      name = "Glacier-mtdR-VVVI-obyO-mUDG-LSUV_iam"
-}
-
-resource "aws_iam_user_policy_attachment" "Glacier-mtdR-VVVI-obyO-mUDG-LSUV_iam_policy_attachment0" {
-      user = aws_iam_user.Glacier-mtdR-VVVI-obyO-mUDG-LSUV_iam.name
-      policy_arn = aws_iam_policy.Glacier-mtdR-VVVI-obyO-mUDG-LSUV_iam_policy0.arn
-}
-
-resource "aws_iam_policy" "Glacier-mtdR-VVVI-obyO-mUDG-LSUV_iam_policy0" {
-      name = "Glacier-mtdR-VVVI-obyO-mUDG-LSUV_iam_policy0"
-      path = "/"
-      policy = data.aws_iam_policy_document.Glacier-mtdR-VVVI-obyO-mUDG-LSUV_iam_policy_document.json
-}
-
-resource "aws_iam_access_key" "Glacier-mtdR-VVVI-obyO-mUDG-LSUV_iam_access_key" {
-      user = aws_iam_user.Glacier-mtdR-VVVI-obyO-mUDG-LSUV_iam.name
-}
-
-resource "aws_dynamodb_table" "DynamoDb-Azcw" {
-      name = "DynamoDb-Azcw"
-      hash_key = "username"
+resource "aws_dynamodb_table" "DynamoDb-bmpr" {
+      name = "DynamoDb-bmpr"
+      hash_key = "testString"
       billing_mode = "PAY_PER_REQUEST"
       ttl {
         attribute_name = "TimeToExist"
         enabled = true
       }
       attribute {
-        name = "username"
+        name = "testString"
         type = "S"
-        _id = "623a37da0a84cbbcdeba62ba"
       }
 }
 
-resource "aws_iam_user" "DynamoDb-Azcw_iam" {
-      name = "DynamoDb-Azcw_iam"
+resource "aws_iam_user" "DynamoDb-bmpr_iam" {
+      name = "DynamoDb-bmpr_iam"
 }
 
-resource "aws_iam_user_policy_attachment" "DynamoDb-Azcw_iam_policy_attachment0" {
-      user = aws_iam_user.DynamoDb-Azcw_iam.name
-      policy_arn = aws_iam_policy.DynamoDb-Azcw_iam_policy0.arn
+resource "aws_iam_user_policy_attachment" "DynamoDb-bmpr_iam_policy_attachment0" {
+      user = aws_iam_user.DynamoDb-bmpr_iam.name
+      policy_arn = aws_iam_policy.DynamoDb-bmpr_iam_policy0.arn
 }
 
-resource "aws_iam_policy" "DynamoDb-Azcw_iam_policy0" {
-      name = "DynamoDb-Azcw_iam_policy0"
+resource "aws_iam_policy" "DynamoDb-bmpr_iam_policy0" {
+      name = "DynamoDb-bmpr_iam_policy0"
       path = "/"
-      policy = data.aws_iam_policy_document.DynamoDb-Azcw_iam_policy_document.json
+      policy = data.aws_iam_policy_document.DynamoDb-bmpr_iam_policy_document.json
 }
 
-resource "aws_iam_access_key" "DynamoDb-Azcw_iam_access_key" {
-      user = aws_iam_user.DynamoDb-Azcw_iam.name
+resource "aws_iam_access_key" "DynamoDb-bmpr_iam_access_key" {
+      user = aws_iam_user.DynamoDb-bmpr_iam.name
 }
 
-resource "aws_iam_instance_profile" "Instance-ARqF_iam_role_instance_profile" {
-      name = "Instance-ARqF_iam_role_instance_profile"
-      role = aws_iam_role.Instance-ARqF_iam_role.name
+resource "aws_iam_instance_profile" "Instance-zouj_iam_role_instance_profile" {
+      name = "Instance-zouj_iam_role_instance_profile"
+      role = aws_iam_role.Instance-zouj_iam_role.name
 }
 
-resource "aws_iam_role" "Instance-ARqF_iam_role" {
-      name = "Instance-ARqF_iam_role"
+resource "aws_iam_role" "Instance-zouj_iam_role" {
+      name = "Instance-zouj_iam_role"
       assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
 }
 
-resource "aws_iam_role_policy_attachment" "Instance-ARqF_iam_role_Bucket-olyu-sTDV-DGiq-crFo-vQQT_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.Bucket-olyu-sTDV-DGiq-crFo-vQQT_iam_policy0.arn
-      role = aws_iam_role.Instance-ARqF_iam_role.name
+resource "aws_iam_role_policy_attachment" "Instance-zouj_iam_role_bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_policy0.arn
+      role = aws_iam_role.Instance-zouj_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "Instance-ARqF_iam_role_Glacier-mtdR-VVVI-obyO-mUDG-LSUV_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.Glacier-mtdR-VVVI-obyO-mUDG-LSUV_iam_policy0.arn
-      role = aws_iam_role.Instance-ARqF_iam_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "Instance-ARqF_iam_role_DynamoDb-Azcw_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.DynamoDb-Azcw_iam_policy0.arn
-      role = aws_iam_role.Instance-ARqF_iam_role.name
+resource "aws_iam_role_policy_attachment" "Instance-zouj_iam_role_DynamoDb-bmpr_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.DynamoDb-bmpr_iam_policy0.arn
+      role = aws_iam_role.Instance-zouj_iam_role.name
 }
 
 resource "aws_subnet" "devxp_vpc_subnet_public0" {
@@ -212,6 +194,19 @@ resource "aws_security_group" "devxp_security_group" {
       }
 }
 
+data "aws_iam_policy_document" "Instance-zouj_iam_policy_document" {
+      statement {
+        actions = ["ec2:RunInstances", "ec2:AssociateIamInstanceProfile", "ec2:ReplaceIamInstanceProfileAssociation"]
+        effect = "Allow"
+        resources = ["arn:aws:ec2:::*"]
+      }
+      statement {
+        actions = ["iam:PassRole"]
+        effect = "Allow"
+        resources = [aws_instance.Instance-zouj.arn]
+      }
+}
+
 data "aws_ami" "amazon_latest" {
       most_recent = true
       owners = ["585441382316"]
@@ -225,7 +220,7 @@ data "aws_ami" "amazon_latest" {
       }
 }
 
-data "aws_iam_policy_document" "Bucket-olyu-sTDV-DGiq-crFo-vQQT_iam_policy_document" {
+data "aws_iam_policy_document" "bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_policy_document" {
       statement {
         actions = ["s3:ListAllMyBuckets"]
         effect = "Allow"
@@ -234,28 +229,15 @@ data "aws_iam_policy_document" "Bucket-olyu-sTDV-DGiq-crFo-vQQT_iam_policy_docum
       statement {
         actions = ["s3:*"]
         effect = "Allow"
-        resources = [aws_s3_bucket.Bucket-olyu-sTDV-DGiq-crFo-vQQT.arn]
+        resources = [aws_s3_bucket.bucket-ogys-qizw-bmzm-bbcb-ovxp.arn]
       }
 }
 
-data "aws_iam_policy_document" "Glacier-mtdR-VVVI-obyO-mUDG-LSUV_iam_policy_document" {
-      statement {
-        actions = ["glacier:InitiateJob", "glacier:GetJobOutput", "glacier:UploadArchive", "glacier:InitiateMultipartUpload", "glacier:AbortMultipartUpload", "glacier:CompleteMultipartUpload", "glacier:DescribeVault"]
-        effect = "Allow"
-        resources = [aws_glacier_vault.Glacier-mtdR-VVVI-obyO-mUDG-LSUV.arn]
-      }
-      statement {
-        actions = ["glacier:ListVaults"]
-        effect = "Allow"
-        resources = ["*"]
-      }
-}
-
-data "aws_iam_policy_document" "DynamoDb-Azcw_iam_policy_document" {
+data "aws_iam_policy_document" "DynamoDb-bmpr_iam_policy_document" {
       statement {
         actions = ["dynamodb:DescribeTable", "dynamodb:Query", "dynamodb:Scan", "dynamodb:BatchGet*", "dynamodb:DescribeStream", "dynamodb:DescribeTable", "dynamodb:Get*", "dynamodb:Query", "dynamodb:Scan", "dynamodb:BatchWrite*", "dynamodb:CreateTable", "dynamodb:Delete*", "dynamodb:Update*", "dynamodb:PutItem"]
         effect = "Allow"
-        resources = [aws_dynamodb_table.DynamoDb-Azcw.arn]
+        resources = [aws_dynamodb_table.DynamoDb-bmpr.arn]
       }
       statement {
         actions = ["dynamodb:List*", "dynamodb:DescribeReservedCapacity*", "dynamodb:DescribeLimits", "dynamodb:DescribeTimeToLive"]
