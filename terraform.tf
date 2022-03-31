@@ -1,21 +1,18 @@
 terraform {
   required_providers {
-    google =  {
-    source = "hashicorp/google"
-    version = ">= 4.10.0"
+    aws =  {
+    source = "hashicorp/aws"
+    version = ">= 2.7.0"
     }
   }
 }
 
-provider "google" {
-    project = "devxp-339721"
-    region = "us-west1"
+provider "aws" {
+    region = "us-west-2"
 }
 
-resource "google_storage_bucket" "terraform_backend_bucket" {
-      location = "us-west1"
-      name = "terraform-state-gl94pyiuv2baspkde98upn2zcv0kg4fynfyap17r95c5p"
-      project = "devxp-339721"
+resource "aws_s3_bucket" "terraform_backend_bucket" {
+      bucket = "terraform-state-yt3st9keh78w56yamnhak3wcxme7gibck86viu1mslxrl"
 }
 
 
