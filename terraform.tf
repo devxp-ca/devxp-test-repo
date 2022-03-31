@@ -13,14 +13,14 @@ provider "google" {
 }
 
 resource "google_storage_bucket" "terraform_backend_bucket" {
-      location = "us-west1-a"
+      location = "us-west1"
       name = "terraform-state-gl94pyiuv2baspkde98upn2zcv0kg4fynfyap17r95c5p"
       project = "devxp-339721"
 }
 
 resource "google_storage_bucket" "storage-bucket-ydzy-lssl-iody-ngoj-noor" {
       name = "storage-bucket-ydzy-lssl-iody-ngoj-noor"
-      location = "us-west1-a"
+      location = "us-west1"
       project = "devxp-339721"
 }
 
