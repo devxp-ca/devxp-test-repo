@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_backend_bucket" {
-      bucket = "terraform-state-861pystlfqnio39t31lf20q0ao0zcb1s8g0rtjoh3c1e4"
+      bucket = "terraform-state-uzlk3h3a95pn0vnp9h1wvt3grggetgbde616w2gx35rrk"
 }
 
 resource "aws_instance" "Instance-zouj" {
@@ -80,37 +80,37 @@ resource "aws_iam_access_key" "bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_access_key" {
       user = aws_iam_user.bucket-ogys-qizw-bmzm-bbcb-ovxp_iam.name
 }
 
-resource "aws_dynamodb_table" "DynamoDb-bmpr" {
-      name = "DynamoDb-bmpr"
-      hash_key = "testString"
+resource "aws_dynamodb_table" "DynamoDb-wowx" {
+      name = "DynamoDb-wowx"
+      hash_key = "test"
       billing_mode = "PAY_PER_REQUEST"
       ttl {
         attribute_name = "TimeToExist"
         enabled = true
       }
       attribute {
-        name = "testString"
+        name = "test"
         type = "S"
       }
 }
 
-resource "aws_iam_user" "DynamoDb-bmpr_iam" {
-      name = "DynamoDb-bmpr_iam"
+resource "aws_iam_user" "DynamoDb-wowx_iam" {
+      name = "DynamoDb-wowx_iam"
 }
 
-resource "aws_iam_user_policy_attachment" "DynamoDb-bmpr_iam_policy_attachment0" {
-      user = aws_iam_user.DynamoDb-bmpr_iam.name
-      policy_arn = aws_iam_policy.DynamoDb-bmpr_iam_policy0.arn
+resource "aws_iam_user_policy_attachment" "DynamoDb-wowx_iam_policy_attachment0" {
+      user = aws_iam_user.DynamoDb-wowx_iam.name
+      policy_arn = aws_iam_policy.DynamoDb-wowx_iam_policy0.arn
 }
 
-resource "aws_iam_policy" "DynamoDb-bmpr_iam_policy0" {
-      name = "DynamoDb-bmpr_iam_policy0"
+resource "aws_iam_policy" "DynamoDb-wowx_iam_policy0" {
+      name = "DynamoDb-wowx_iam_policy0"
       path = "/"
-      policy = data.aws_iam_policy_document.DynamoDb-bmpr_iam_policy_document.json
+      policy = data.aws_iam_policy_document.DynamoDb-wowx_iam_policy_document.json
 }
 
-resource "aws_iam_access_key" "DynamoDb-bmpr_iam_access_key" {
-      user = aws_iam_user.DynamoDb-bmpr_iam.name
+resource "aws_iam_access_key" "DynamoDb-wowx_iam_access_key" {
+      user = aws_iam_user.DynamoDb-wowx_iam.name
 }
 
 resource "aws_iam_instance_profile" "Instance-zouj_iam_role_instance_profile" {
@@ -128,8 +128,8 @@ resource "aws_iam_role_policy_attachment" "Instance-zouj_iam_role_bucket-ogys-qi
       role = aws_iam_role.Instance-zouj_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "Instance-zouj_iam_role_DynamoDb-bmpr_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.DynamoDb-bmpr_iam_policy0.arn
+resource "aws_iam_role_policy_attachment" "Instance-zouj_iam_role_DynamoDb-wowx_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.DynamoDb-wowx_iam_policy0.arn
       role = aws_iam_role.Instance-zouj_iam_role.name
 }
 
@@ -233,11 +233,11 @@ data "aws_iam_policy_document" "bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_policy_docum
       }
 }
 
-data "aws_iam_policy_document" "DynamoDb-bmpr_iam_policy_document" {
+data "aws_iam_policy_document" "DynamoDb-wowx_iam_policy_document" {
       statement {
         actions = ["dynamodb:DescribeTable", "dynamodb:Query", "dynamodb:Scan", "dynamodb:BatchGet*", "dynamodb:DescribeStream", "dynamodb:DescribeTable", "dynamodb:Get*", "dynamodb:Query", "dynamodb:Scan", "dynamodb:BatchWrite*", "dynamodb:CreateTable", "dynamodb:Delete*", "dynamodb:Update*", "dynamodb:PutItem"]
         effect = "Allow"
-        resources = [aws_dynamodb_table.DynamoDb-bmpr.arn]
+        resources = [aws_dynamodb_table.DynamoDb-wowx.arn]
       }
       statement {
         actions = ["dynamodb:List*", "dynamodb:DescribeReservedCapacity*", "dynamodb:DescribeLimits", "dynamodb:DescribeTimeToLive"]
