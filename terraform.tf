@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_backend_bucket" {
-      bucket = "terraform-state-d6n8wx1wu55o5ubxrczpa1ztpwylv6ug18olpekeeqz0p"
+      bucket = "terraform-state-6wrb5gjoiobld5mulvo6sfo4say4rkeceie3h2vo86arz"
 }
 
 resource "aws_instance" "Instance-zouj" {
@@ -80,8 +80,8 @@ resource "aws_iam_access_key" "bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_access_key" {
       user = aws_iam_user.bucket-ogys-qizw-bmzm-bbcb-ovxp_iam.name
 }
 
-resource "aws_dynamodb_table" "DynamoDb-vxjr" {
-      name = "DynamoDb-vxjr"
+resource "aws_dynamodb_table" "DynamoDb-avxo" {
+      name = "DynamoDb-avxo"
       hash_key = "test"
       billing_mode = "PAY_PER_REQUEST"
       ttl {
@@ -94,23 +94,23 @@ resource "aws_dynamodb_table" "DynamoDb-vxjr" {
       }
 }
 
-resource "aws_iam_user" "DynamoDb-vxjr_iam" {
-      name = "DynamoDb-vxjr_iam"
+resource "aws_iam_user" "DynamoDb-avxo_iam" {
+      name = "DynamoDb-avxo_iam"
 }
 
-resource "aws_iam_user_policy_attachment" "DynamoDb-vxjr_iam_policy_attachment0" {
-      user = aws_iam_user.DynamoDb-vxjr_iam.name
-      policy_arn = aws_iam_policy.DynamoDb-vxjr_iam_policy0.arn
+resource "aws_iam_user_policy_attachment" "DynamoDb-avxo_iam_policy_attachment0" {
+      user = aws_iam_user.DynamoDb-avxo_iam.name
+      policy_arn = aws_iam_policy.DynamoDb-avxo_iam_policy0.arn
 }
 
-resource "aws_iam_policy" "DynamoDb-vxjr_iam_policy0" {
-      name = "DynamoDb-vxjr_iam_policy0"
+resource "aws_iam_policy" "DynamoDb-avxo_iam_policy0" {
+      name = "DynamoDb-avxo_iam_policy0"
       path = "/"
-      policy = data.aws_iam_policy_document.DynamoDb-vxjr_iam_policy_document.json
+      policy = data.aws_iam_policy_document.DynamoDb-avxo_iam_policy_document.json
 }
 
-resource "aws_iam_access_key" "DynamoDb-vxjr_iam_access_key" {
-      user = aws_iam_user.DynamoDb-vxjr_iam.name
+resource "aws_iam_access_key" "DynamoDb-avxo_iam_access_key" {
+      user = aws_iam_user.DynamoDb-avxo_iam.name
 }
 
 resource "aws_iam_instance_profile" "Instance-zouj_iam_role_instance_profile" {
@@ -128,8 +128,8 @@ resource "aws_iam_role_policy_attachment" "Instance-zouj_iam_role_bucket-ogys-qi
       role = aws_iam_role.Instance-zouj_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "Instance-zouj_iam_role_DynamoDb-vxjr_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.DynamoDb-vxjr_iam_policy0.arn
+resource "aws_iam_role_policy_attachment" "Instance-zouj_iam_role_DynamoDb-avxo_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.DynamoDb-avxo_iam_policy0.arn
       role = aws_iam_role.Instance-zouj_iam_role.name
 }
 
@@ -233,11 +233,11 @@ data "aws_iam_policy_document" "bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_policy_docum
       }
 }
 
-data "aws_iam_policy_document" "DynamoDb-vxjr_iam_policy_document" {
+data "aws_iam_policy_document" "DynamoDb-avxo_iam_policy_document" {
       statement {
         actions = ["dynamodb:DescribeTable", "dynamodb:Query", "dynamodb:Scan", "dynamodb:BatchGet*", "dynamodb:DescribeStream", "dynamodb:DescribeTable", "dynamodb:Get*", "dynamodb:Query", "dynamodb:Scan", "dynamodb:BatchWrite*", "dynamodb:CreateTable", "dynamodb:Delete*", "dynamodb:Update*", "dynamodb:PutItem"]
         effect = "Allow"
-        resources = [aws_dynamodb_table.DynamoDb-vxjr.arn]
+        resources = [aws_dynamodb_table.DynamoDb-avxo.arn]
       }
       statement {
         actions = ["dynamodb:List*", "dynamodb:DescribeReservedCapacity*", "dynamodb:DescribeLimits", "dynamodb:DescribeTimeToLive"]
