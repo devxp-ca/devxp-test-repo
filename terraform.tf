@@ -1,248 +1,79 @@
 terraform {
   required_providers {
-    aws =  {
-    source = "hashicorp/aws"
-    version = ">= 2.7.0"
+    google =  {
+    source = "hashicorp/google"
+    version = ">= 4.10.0"
     }
   }
 }
 
-provider "aws" {
-    region = "us-west-2"
+provider "google" {
+    project = "devxp-339721"
+    region = "us-west1"
 }
 
-resource "aws_s3_bucket" "terraform_backend_bucket" {
-      bucket = "terraform-state-861pystlfqnio39t31lf20q0ao0zcb1s8g0rtjoh3c1e4"
+resource "google_storage_bucket" "terraform_backend_bucket" {
+      location = "us-west1"
+      name = "terraform-state-gl94pyiuv2baspkde98upn2zcv0kg4fynfyap17r95c5p"
+      project = "devxp-339721"
 }
 
-resource "aws_instance" "Instance-zouj" {
-      ami = data.aws_ami.amazon_latest.id
-      instance_type = "t2.micro"
-      lifecycle {
-        ignore_changes = [ami]
+resource "google_cloud_run_service" "test-run-devxp" {
+      name = "test-run-devxp"
+      location = "us-west1"
+      autogenerate_revision_name = true
+      template {
+        spec {
+          containers {
+            image = "gcr.io/devxp-339721/devxp:2faa0b7"
+            env {
+              name = "CONNECTION_STRING"
+              value = var.CLOUD_RUN_CONNECTION_STRING
+            }
+            env {
+              name = "GITHUB_CLIENT_ID"
+              value = var.CLOUD_RUN_GITHUB_CLIENT_ID
+            }
+            env {
+              name = "GITHUB_CLIENT_SECRET"
+              value = var.CLOUD_RUN_GITHUB_CLIENT_SECRET
+            }
+          }
+        }
       }
-      subnet_id = aws_subnet.devxp_vpc_subnet_public0.id
-      associate_public_ip_address = true
-      vpc_security_group_ids = [aws_security_group.devxp_security_group.id]
-      iam_instance_profile = aws_iam_instance_profile.Instance-zouj_iam_role_instance_profile.name
-}
-
-resource "aws_eip" "Instance-zouj_eip" {
-      vpc = true
-      instance = aws_instance.Instance-zouj.id
-}
-
-resource "aws_iam_user" "Instance-zouj_iam" {
-      name = "Instance-zouj_iam"
-}
-
-resource "aws_iam_user_policy_attachment" "Instance-zouj_iam_policy_attachment0" {
-      user = aws_iam_user.Instance-zouj_iam.name
-      policy_arn = aws_iam_policy.Instance-zouj_iam_policy0.arn
-}
-
-resource "aws_iam_policy" "Instance-zouj_iam_policy0" {
-      name = "Instance-zouj_iam_policy0"
-      path = "/"
-      policy = data.aws_iam_policy_document.Instance-zouj_iam_policy_document.json
-}
-
-resource "aws_iam_access_key" "Instance-zouj_iam_access_key" {
-      user = aws_iam_user.Instance-zouj_iam.name
-}
-
-resource "aws_s3_bucket" "bucket-ogys-qizw-bmzm-bbcb-ovxp" {
-      bucket = "bucket-ogys-qizw-bmzm-bbcb-ovxp"
-}
-
-resource "aws_s3_bucket_public_access_block" "bucket-ogys-qizw-bmzm-bbcb-ovxp_access" {
-      bucket = aws_s3_bucket.bucket-ogys-qizw-bmzm-bbcb-ovxp.id
-      block_public_acls = true
-      block_public_policy = true
-}
-
-resource "aws_iam_user" "bucket-ogys-qizw-bmzm-bbcb-ovxp_iam" {
-      name = "bucket-ogys-qizw-bmzm-bbcb-ovxp_iam"
-}
-
-resource "aws_iam_user_policy_attachment" "bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_policy_attachment0" {
-      user = aws_iam_user.bucket-ogys-qizw-bmzm-bbcb-ovxp_iam.name
-      policy_arn = aws_iam_policy.bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_policy0.arn
-}
-
-resource "aws_iam_policy" "bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_policy0" {
-      name = "bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_policy0"
-      path = "/"
-      policy = data.aws_iam_policy_document.bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_policy_document.json
-}
-
-resource "aws_iam_access_key" "bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_access_key" {
-      user = aws_iam_user.bucket-ogys-qizw-bmzm-bbcb-ovxp_iam.name
-}
-
-resource "aws_dynamodb_table" "DynamoDb-bmpr" {
-      name = "DynamoDb-bmpr"
-      hash_key = "testString"
-      billing_mode = "PAY_PER_REQUEST"
-      ttl {
-        attribute_name = "TimeToExist"
-        enabled = true
+      traffic {
+        percent = 100
+        latest_revision = true
       }
-      attribute {
-        name = "testString"
-        type = "S"
-      }
+      depends_on = [google_project_service.test-run-devxp-service]
 }
 
-resource "aws_iam_user" "DynamoDb-bmpr_iam" {
-      name = "DynamoDb-bmpr_iam"
+resource "google_cloud_run_service_iam_member" "test-run-devxp-iam" {
+      service = google_cloud_run_service.test-run-devxp.name
+      location = google_cloud_run_service.test-run-devxp.location
+      project = google_cloud_run_service.test-run-devxp.project
+      role = "roles/run.invoker"
+      member = "allUsers"
 }
 
-resource "aws_iam_user_policy_attachment" "DynamoDb-bmpr_iam_policy_attachment0" {
-      user = aws_iam_user.DynamoDb-bmpr_iam.name
-      policy_arn = aws_iam_policy.DynamoDb-bmpr_iam_policy0.arn
+resource "google_project_service" "test-run-devxp-service" {
+      disable_on_destroy = false
+      service = "run.googleapis.com"
 }
 
-resource "aws_iam_policy" "DynamoDb-bmpr_iam_policy0" {
-      name = "DynamoDb-bmpr_iam_policy0"
-      path = "/"
-      policy = data.aws_iam_policy_document.DynamoDb-bmpr_iam_policy_document.json
+
+variable "CLOUD_RUN_CONNECTION_STRING" {
+    type = string
+    sensitive = true
 }
 
-resource "aws_iam_access_key" "DynamoDb-bmpr_iam_access_key" {
-      user = aws_iam_user.DynamoDb-bmpr_iam.name
+variable "CLOUD_RUN_GITHUB_CLIENT_ID" {
+    type = string
+    sensitive = true
 }
 
-resource "aws_iam_instance_profile" "Instance-zouj_iam_role_instance_profile" {
-      name = "Instance-zouj_iam_role_instance_profile"
-      role = aws_iam_role.Instance-zouj_iam_role.name
-}
-
-resource "aws_iam_role" "Instance-zouj_iam_role" {
-      name = "Instance-zouj_iam_role"
-      assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
-}
-
-resource "aws_iam_role_policy_attachment" "Instance-zouj_iam_role_bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_policy0.arn
-      role = aws_iam_role.Instance-zouj_iam_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "Instance-zouj_iam_role_DynamoDb-bmpr_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.DynamoDb-bmpr_iam_policy0.arn
-      role = aws_iam_role.Instance-zouj_iam_role.name
-}
-
-resource "aws_subnet" "devxp_vpc_subnet_public0" {
-      vpc_id = aws_vpc.devxp_vpc.id
-      cidr_block = "10.0.0.0/25"
-      map_public_ip_on_launch = true
-      availability_zone = "us-west-2a"
-}
-
-resource "aws_subnet" "devxp_vpc_subnet_public1" {
-      vpc_id = aws_vpc.devxp_vpc.id
-      cidr_block = "10.0.128.0/25"
-      map_public_ip_on_launch = true
-      availability_zone = "us-west-2b"
-}
-
-resource "aws_internet_gateway" "devxp_vpc_internetgateway" {
-      vpc_id = aws_vpc.devxp_vpc.id
-}
-
-resource "aws_route_table" "devxp_vpc_routetable_pub" {
-      route {
-        cidr_block = "0.0.0.0/0"
-        gateway_id = aws_internet_gateway.devxp_vpc_internetgateway.id
-      }
-      vpc_id = aws_vpc.devxp_vpc.id
-}
-
-resource "aws_route" "devxp_vpc_internet_route" {
-      route_table_id = aws_route_table.devxp_vpc_routetable_pub.id
-      destination_cidr_block = "0.0.0.0/0"
-      gateway_id = aws_internet_gateway.devxp_vpc_internetgateway.id
-}
-
-resource "aws_route_table_association" "devxp_vpc_subnet_public_assoc" {
-      subnet_id = aws_subnet.devxp_vpc_subnet_public0.id
-      route_table_id = aws_route_table.devxp_vpc_routetable_pub.id
-}
-
-resource "aws_vpc" "devxp_vpc" {
-      cidr_block = "10.0.0.0/16"
-      enable_dns_support = true
-      enable_dns_hostnames = true
-}
-
-resource "aws_security_group" "devxp_security_group" {
-      vpc_id = aws_vpc.devxp_vpc.id
-      name = "devxp_security_group"
-      ingress = []
-      egress {
-        from_port = 80
-        to_port = 80
-        protocol = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-      }
-      egress {
-        from_port = 443
-        to_port = 443
-        protocol = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
-      }
-}
-
-data "aws_iam_policy_document" "Instance-zouj_iam_policy_document" {
-      statement {
-        actions = ["ec2:RunInstances", "ec2:AssociateIamInstanceProfile", "ec2:ReplaceIamInstanceProfileAssociation"]
-        effect = "Allow"
-        resources = ["arn:aws:ec2:::*"]
-      }
-      statement {
-        actions = ["iam:PassRole"]
-        effect = "Allow"
-        resources = [aws_instance.Instance-zouj.arn]
-      }
-}
-
-data "aws_ami" "amazon_latest" {
-      most_recent = true
-      owners = ["585441382316"]
-      filter {
-        name = "name"
-        values = ["*AmazonLinux*"]
-      }
-      filter {
-        name = "virtualization-type"
-        values = ["hvm"]
-      }
-}
-
-data "aws_iam_policy_document" "bucket-ogys-qizw-bmzm-bbcb-ovxp_iam_policy_document" {
-      statement {
-        actions = ["s3:ListAllMyBuckets"]
-        effect = "Allow"
-        resources = ["arn:aws:s3:::*"]
-      }
-      statement {
-        actions = ["s3:*"]
-        effect = "Allow"
-        resources = [aws_s3_bucket.bucket-ogys-qizw-bmzm-bbcb-ovxp.arn]
-      }
-}
-
-data "aws_iam_policy_document" "DynamoDb-bmpr_iam_policy_document" {
-      statement {
-        actions = ["dynamodb:DescribeTable", "dynamodb:Query", "dynamodb:Scan", "dynamodb:BatchGet*", "dynamodb:DescribeStream", "dynamodb:DescribeTable", "dynamodb:Get*", "dynamodb:Query", "dynamodb:Scan", "dynamodb:BatchWrite*", "dynamodb:CreateTable", "dynamodb:Delete*", "dynamodb:Update*", "dynamodb:PutItem"]
-        effect = "Allow"
-        resources = [aws_dynamodb_table.DynamoDb-bmpr.arn]
-      }
-      statement {
-        actions = ["dynamodb:List*", "dynamodb:DescribeReservedCapacity*", "dynamodb:DescribeLimits", "dynamodb:DescribeTimeToLive"]
-        effect = "Allow"
-        resources = ["*"]
-      }
+variable "CLOUD_RUN_GITHUB_CLIENT_SECRET" {
+    type = string
+    sensitive = true
 }
 
