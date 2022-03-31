@@ -18,14 +18,14 @@ resource "google_storage_bucket" "terraform_backend_bucket" {
       project = "devxp-339721"
 }
 
-resource "google_cloud_run_service" "test-run-devxp" {
-      name = "test-run-devxp"
+resource "google_cloud_run_service" "cloud-run-ltvg" {
+      name = "cloud-run-ltvg"
       location = "us-west1"
       autogenerate_revision_name = true
       template {
         spec {
           containers {
-            image = "gcr.io/devxp-339721/devxp:2faa0b7"
+            image = "gcr.io/devxp-339721/devxp:b79f5c8"
             env {
               name = "CONNECTION_STRING"
               value = var.CLOUD_RUN_CONNECTION_STRING
@@ -45,18 +45,18 @@ resource "google_cloud_run_service" "test-run-devxp" {
         percent = 100
         latest_revision = true
       }
-      depends_on = [google_project_service.test-run-devxp-service]
+      depends_on = [google_project_service.cloud-run-ltvg-service]
 }
 
-resource "google_cloud_run_service_iam_member" "test-run-devxp-iam" {
-      service = google_cloud_run_service.test-run-devxp.name
-      location = google_cloud_run_service.test-run-devxp.location
-      project = google_cloud_run_service.test-run-devxp.project
+resource "google_cloud_run_service_iam_member" "cloud-run-ltvg-iam" {
+      service = google_cloud_run_service.cloud-run-ltvg.name
+      location = google_cloud_run_service.cloud-run-ltvg.location
+      project = google_cloud_run_service.cloud-run-ltvg.project
       role = "roles/run.invoker"
       member = "allUsers"
 }
 
-resource "google_project_service" "test-run-devxp-service" {
+resource "google_project_service" "cloud-run-ltvg-service" {
       disable_on_destroy = false
       service = "run.googleapis.com"
 }
@@ -77,7 +77,7 @@ variable "CLOUD_RUN_GITHUB_CLIENT_SECRET" {
     sensitive = true
 }
 
-output "test-run-devxp-service-url" {
-    value = google_cloud_run_service.test-run-devxp.status[0].url
+output "cloud-run-ltvg-service-url" {
+    value = google_cloud_run_service.cloud-run-ltvg.status[0].url
 }
 
