@@ -18,8 +18,8 @@ resource "google_storage_bucket" "terraform_backend_bucket" {
       project = "devxp-339721"
 }
 
-resource "google_cloud_run_service" "cloud-run-vcrg" {
-      name = "cloud-run-vcrg"
+resource "google_cloud_run_service" "cloud-run-ovro" {
+      name = "cloud-run-ovro"
       location = "us-west1"
       autogenerate_revision_name = true
       template {
@@ -28,15 +28,15 @@ resource "google_cloud_run_service" "cloud-run-vcrg" {
             image = "gcr.io/devxp-339721/devxp:b79f5c8"
             env {
               name = "CONNECTION_STRING"
-              value = var.CLOUD_RUN_CONNECTION_STRING
+              value = var.CONNECTION_STRING
             }
             env {
               name = "GITHUB_CLIENT_ID"
-              value = var.CLOUD_RUN_GITHUB_CLIENT_ID
+              value = var.GITHUB_CLIENT_ID
             }
             env {
               name = "GITHUB_CLIENT_SECRET"
-              value = var.CLOUD_RUN_GITHUB_CLIENT_SECRET
+              value = var.GITHUB_CLIENT_SECRET
             }
           }
         }
@@ -45,39 +45,39 @@ resource "google_cloud_run_service" "cloud-run-vcrg" {
         percent = 100
         latest_revision = true
       }
-      depends_on = [google_project_service.cloud-run-vcrg-service]
+      depends_on = [google_project_service.cloud-run-ovro-service]
 }
 
-resource "google_cloud_run_service_iam_member" "cloud-run-vcrg-iam" {
-      service = google_cloud_run_service.cloud-run-vcrg.name
-      location = google_cloud_run_service.cloud-run-vcrg.location
-      project = google_cloud_run_service.cloud-run-vcrg.project
+resource "google_cloud_run_service_iam_member" "cloud-run-ovro-iam" {
+      service = google_cloud_run_service.cloud-run-ovro.name
+      location = google_cloud_run_service.cloud-run-ovro.location
+      project = google_cloud_run_service.cloud-run-ovro.project
       role = "roles/run.invoker"
       member = "allUsers"
 }
 
-resource "google_project_service" "cloud-run-vcrg-service" {
+resource "google_project_service" "cloud-run-ovro-service" {
       disable_on_destroy = false
       service = "run.googleapis.com"
 }
 
 
-variable "CLOUD_RUN_CONNECTION_STRING" {
+variable "CONNECTION_STRING" {
     type = string
     sensitive = true
 }
 
-variable "CLOUD_RUN_GITHUB_CLIENT_ID" {
+variable "GITHUB_CLIENT_ID" {
     type = string
     sensitive = true
 }
 
-variable "CLOUD_RUN_GITHUB_CLIENT_SECRET" {
+variable "GITHUB_CLIENT_SECRET" {
     type = string
     sensitive = true
 }
 
-output "cloud-run-vcrg-service-url" {
-    value = google_cloud_run_service.cloud-run-vcrg.status[0].url
+output "cloud-run-ovro-service-url" {
+    value = google_cloud_run_service.cloud-run-ovro.status[0].url
 }
 
