@@ -14,12 +14,12 @@ provider "google" {
 
 resource "google_storage_bucket" "terraform_backend_bucket" {
       location = "us-west1"
-      name = "terraform-state-7wm9xxjmzy4squ8l46rsqph9u9lwns0i4r5u45jeiksva"
+      name = "terraform-state-1lyu29om9hdbsy48k62y2n3hv0datl3dhf7q2p0dvlpd9"
       project = "devxp-339721"
 }
 
-resource "google_cloud_run_service" "cloud-run-jijd" {
-      name = "cloud-run-jijd"
+resource "google_cloud_run_service" "cloud-run-krxs" {
+      name = "cloud-run-krxs"
       location = "us-west1"
       autogenerate_revision_name = true
       template {
@@ -45,18 +45,18 @@ resource "google_cloud_run_service" "cloud-run-jijd" {
         percent = 100
         latest_revision = true
       }
-      depends_on = [google_project_service.cloud-run-jijd-service]
+      depends_on = [google_project_service.cloud-run-krxs-service]
 }
 
-resource "google_cloud_run_service_iam_member" "cloud-run-jijd-iam" {
-      service = google_cloud_run_service.cloud-run-jijd.name
-      location = google_cloud_run_service.cloud-run-jijd.location
-      project = google_cloud_run_service.cloud-run-jijd.project
+resource "google_cloud_run_service_iam_member" "cloud-run-krxs-iam" {
+      service = google_cloud_run_service.cloud-run-krxs.name
+      location = google_cloud_run_service.cloud-run-krxs.location
+      project = google_cloud_run_service.cloud-run-krxs.project
       role = "roles/run.invoker"
       member = "allUsers"
 }
 
-resource "google_project_service" "cloud-run-jijd-service" {
+resource "google_project_service" "cloud-run-krxs-service" {
       disable_on_destroy = false
       service = "run.googleapis.com"
 }
@@ -77,7 +77,7 @@ variable "GITHUB_CLIENT_SECRET" {
     sensitive = true
 }
 
-output "cloud-run-jijd-service-url" {
-    value = google_cloud_run_service.cloud-run-jijd.status[0].url
+output "cloud-run-krxs-service-url" {
+    value = google_cloud_run_service.cloud-run-krxs.status[0].url
 }
 
