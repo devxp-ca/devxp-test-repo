@@ -14,12 +14,12 @@ provider "google" {
 
 resource "google_storage_bucket" "terraform_backend_bucket" {
       location = "us-west1"
-      name = "terraform-state-5tkjwht6v82xph43tmmwxqgpj7drcw8aucs13c3lpwej4"
+      name = "terraform-state-7wm9xxjmzy4squ8l46rsqph9u9lwns0i4r5u45jeiksva"
       project = "devxp-339721"
 }
 
-resource "google_cloud_run_service" "cloud-run-ovro" {
-      name = "cloud-run-ovro"
+resource "google_cloud_run_service" "cloud-run-jijd" {
+      name = "cloud-run-jijd"
       location = "us-west1"
       autogenerate_revision_name = true
       template {
@@ -45,18 +45,18 @@ resource "google_cloud_run_service" "cloud-run-ovro" {
         percent = 100
         latest_revision = true
       }
-      depends_on = [google_project_service.cloud-run-ovro-service]
+      depends_on = [google_project_service.cloud-run-jijd-service]
 }
 
-resource "google_cloud_run_service_iam_member" "cloud-run-ovro-iam" {
-      service = google_cloud_run_service.cloud-run-ovro.name
-      location = google_cloud_run_service.cloud-run-ovro.location
-      project = google_cloud_run_service.cloud-run-ovro.project
+resource "google_cloud_run_service_iam_member" "cloud-run-jijd-iam" {
+      service = google_cloud_run_service.cloud-run-jijd.name
+      location = google_cloud_run_service.cloud-run-jijd.location
+      project = google_cloud_run_service.cloud-run-jijd.project
       role = "roles/run.invoker"
       member = "allUsers"
 }
 
-resource "google_project_service" "cloud-run-ovro-service" {
+resource "google_project_service" "cloud-run-jijd-service" {
       disable_on_destroy = false
       service = "run.googleapis.com"
 }
@@ -77,7 +77,7 @@ variable "GITHUB_CLIENT_SECRET" {
     sensitive = true
 }
 
-output "cloud-run-ovro-service-url" {
-    value = google_cloud_run_service.cloud-run-ovro.status[0].url
+output "cloud-run-jijd-service-url" {
+    value = google_cloud_run_service.cloud-run-jijd.status[0].url
 }
 
