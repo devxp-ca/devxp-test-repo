@@ -18,8 +18,8 @@ resource "google_storage_bucket" "terraform_backend_bucket" {
       project = "devxp-339721"
 }
 
-resource "google_cloud_run_service" "cloud-run-gbbt" {
-      name = "cloud-run-gbbt"
+resource "google_cloud_run_service" "cloud-run-vcrg" {
+      name = "cloud-run-vcrg"
       location = "us-west1"
       autogenerate_revision_name = true
       template {
@@ -45,18 +45,18 @@ resource "google_cloud_run_service" "cloud-run-gbbt" {
         percent = 100
         latest_revision = true
       }
-      depends_on = [google_project_service.cloud-run-gbbt-service]
+      depends_on = [google_project_service.cloud-run-vcrg-service]
 }
 
-resource "google_cloud_run_service_iam_member" "cloud-run-gbbt-iam" {
-      service = google_cloud_run_service.cloud-run-gbbt.name
-      location = google_cloud_run_service.cloud-run-gbbt.location
-      project = google_cloud_run_service.cloud-run-gbbt.project
+resource "google_cloud_run_service_iam_member" "cloud-run-vcrg-iam" {
+      service = google_cloud_run_service.cloud-run-vcrg.name
+      location = google_cloud_run_service.cloud-run-vcrg.location
+      project = google_cloud_run_service.cloud-run-vcrg.project
       role = "roles/run.invoker"
       member = "allUsers"
 }
 
-resource "google_project_service" "cloud-run-gbbt-service" {
+resource "google_project_service" "cloud-run-vcrg-service" {
       disable_on_destroy = false
       service = "run.googleapis.com"
 }
@@ -77,7 +77,7 @@ variable "CLOUD_RUN_GITHUB_CLIENT_SECRET" {
     sensitive = true
 }
 
-output "cloud-run-gbbt-service-url" {
-    value = google_cloud_run_service.cloud-run-gbbt.status[0].url
+output "cloud-run-vcrg-service-url" {
+    value = google_cloud_run_service.cloud-run-vcrg.status[0].url
 }
 
