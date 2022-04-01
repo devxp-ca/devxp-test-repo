@@ -14,12 +14,12 @@ provider "google" {
 
 resource "google_storage_bucket" "terraform_backend_bucket" {
       location = "us-west1"
-      name = "terraform-state-gl94pyiuv2baspkde98upn2zcv0kg4fynfyap17r95c5p"
+      name = "terraform-state-5tkjwht6v82xph43tmmwxqgpj7drcw8aucs13c3lpwej4"
       project = "devxp-339721"
 }
 
-resource "google_cloud_run_service" "cloud-run-rlmq" {
-      name = "cloud-run-rlmq"
+resource "google_cloud_run_service" "cloud-run-vcrg" {
+      name = "cloud-run-vcrg"
       location = "us-west1"
       autogenerate_revision_name = true
       template {
@@ -45,18 +45,18 @@ resource "google_cloud_run_service" "cloud-run-rlmq" {
         percent = 100
         latest_revision = true
       }
-      depends_on = [google_project_service.cloud-run-rlmq-service]
+      depends_on = [google_project_service.cloud-run-vcrg-service]
 }
 
-resource "google_cloud_run_service_iam_member" "cloud-run-rlmq-iam" {
-      service = google_cloud_run_service.cloud-run-rlmq.name
-      location = google_cloud_run_service.cloud-run-rlmq.location
-      project = google_cloud_run_service.cloud-run-rlmq.project
+resource "google_cloud_run_service_iam_member" "cloud-run-vcrg-iam" {
+      service = google_cloud_run_service.cloud-run-vcrg.name
+      location = google_cloud_run_service.cloud-run-vcrg.location
+      project = google_cloud_run_service.cloud-run-vcrg.project
       role = "roles/run.invoker"
       member = "allUsers"
 }
 
-resource "google_project_service" "cloud-run-rlmq-service" {
+resource "google_project_service" "cloud-run-vcrg-service" {
       disable_on_destroy = false
       service = "run.googleapis.com"
 }
@@ -77,7 +77,7 @@ variable "CLOUD_RUN_GITHUB_CLIENT_SECRET" {
     sensitive = true
 }
 
-output "cloud-run-rlmq-service-url" {
-    value = google_cloud_run_service.cloud-run-rlmq.status[0].url
+output "cloud-run-vcrg-service-url" {
+    value = google_cloud_run_service.cloud-run-vcrg.status[0].url
 }
 
