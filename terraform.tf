@@ -18,6 +18,26 @@ resource "google_storage_bucket" "terraform_backend_bucket" {
       project = "devxp-339721"
 }
 
+resource "google_compute_instance" "gce-moah" {
+      name = "gce-moah"
+      machine_type = "f1-micro"
+      zone = "us-west1-a"
+      network_interface {
+        network = "default"
+      }
+      boot_disk {
+        initialize_params {
+          image = "ubuntu-2004-focal-v20220204"
+        }
+      }
+      project = "devxp-339721"
+}
+
+resource "google_project_service" "gce-moah-service" {
+      disable_on_destroy = false
+      service = "compute.googleapis.com"
+}
+
 resource "google_cloud_run_service" "cloud-run-krxs" {
       name = "cloud-run-krxs"
       location = "us-west1"
@@ -59,6 +79,12 @@ resource "google_cloud_run_service_iam_member" "cloud-run-krxs-iam" {
 resource "google_project_service" "cloud-run-krxs-service" {
       disable_on_destroy = false
       service = "run.googleapis.com"
+}
+
+resource "google_storage_bucket" "storage-bucket-hjlv-zyqm-jirt-anxg-kiqy" {
+      name = "storage-bucket-hjlv-zyqm-jirt-anxg-kiqy"
+      location = "us-west1"
+      project = "devxp-339721"
 }
 
 
