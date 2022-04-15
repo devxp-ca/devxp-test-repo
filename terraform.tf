@@ -18,12 +18,6 @@ resource "google_storage_bucket" "terraform_backend_bucket" {
       project = "devxp-339721"
 }
 
-resource "google_storage_bucket" "storage-bucket-qjff-vmje-tocd-rhqc-fzei" {
-      name = "storage-bucket-qjff-vmje-tocd-rhqc-fzei"
-      location = "us-west1"
-      project = "devxp-339721"
-}
-
 resource "google_compute_instance" "gce-yiqx" {
       name = "gce-yiqx"
       machine_type = "f1-micro"
@@ -44,8 +38,8 @@ resource "google_project_service" "gce-yiqx-service" {
       service = "compute.googleapis.com"
 }
 
-resource "google_cloud_run_service" "cloud-run-dkqd" {
-      name = "cloud-run-dkqd"
+resource "google_cloud_run_service" "cloud-run-lono" {
+      name = "cloud-run-lono"
       location = "us-west1"
       autogenerate_revision_name = true
       template {
@@ -71,20 +65,26 @@ resource "google_cloud_run_service" "cloud-run-dkqd" {
         percent = 100
         latest_revision = true
       }
-      depends_on = [google_project_service.cloud-run-dkqd-service]
+      depends_on = [google_project_service.cloud-run-lono-service]
 }
 
-resource "google_cloud_run_service_iam_member" "cloud-run-dkqd-iam" {
-      service = google_cloud_run_service.cloud-run-dkqd.name
-      location = google_cloud_run_service.cloud-run-dkqd.location
-      project = google_cloud_run_service.cloud-run-dkqd.project
+resource "google_cloud_run_service_iam_member" "cloud-run-lono-iam" {
+      service = google_cloud_run_service.cloud-run-lono.name
+      location = google_cloud_run_service.cloud-run-lono.location
+      project = google_cloud_run_service.cloud-run-lono.project
       role = "roles/run.invoker"
       member = "allUsers"
 }
 
-resource "google_project_service" "cloud-run-dkqd-service" {
+resource "google_project_service" "cloud-run-lono-service" {
       disable_on_destroy = false
       service = "run.googleapis.com"
+}
+
+resource "google_storage_bucket" "storage-bucket-qjff-vmje-tocd-rhqc-fzei" {
+      name = "storage-bucket-qjff-vmje-tocd-rhqc-fzei"
+      location = "us-west1"
+      project = "devxp-339721"
 }
 
 
@@ -103,7 +103,7 @@ variable "GITHUB_CLIENT_SECRET" {
     sensitive = true
 }
 
-output "cloud-run-dkqd-service-url" {
-    value = google_cloud_run_service.cloud-run-dkqd.status[0].url
+output "cloud-run-lono-service-url" {
+    value = google_cloud_run_service.cloud-run-lono.status[0].url
 }
 
