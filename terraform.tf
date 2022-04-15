@@ -18,8 +18,28 @@ resource "google_storage_bucket" "terraform_backend_bucket" {
       project = "devxp-339721"
 }
 
-resource "google_cloud_run_service" "cloud-run-krxs" {
-      name = "cloud-run-krxs"
+resource "google_compute_instance" "gce-yiqx" {
+      name = "gce-yiqx"
+      machine_type = "f1-micro"
+      zone = "us-west1-a"
+      network_interface {
+        network = "default"
+      }
+      boot_disk {
+        initialize_params {
+          image = "ubuntu-2004-focal-v20220204"
+        }
+      }
+      project = "devxp-339721"
+}
+
+resource "google_project_service" "gce-yiqx-service" {
+      disable_on_destroy = false
+      service = "compute.googleapis.com"
+}
+
+resource "google_cloud_run_service" "cloud-run-dkqd" {
+      name = "cloud-run-dkqd"
       location = "us-west1"
       autogenerate_revision_name = true
       template {
@@ -45,20 +65,26 @@ resource "google_cloud_run_service" "cloud-run-krxs" {
         percent = 100
         latest_revision = true
       }
-      depends_on = [google_project_service.cloud-run-krxs-service]
+      depends_on = [google_project_service.cloud-run-dkqd-service]
 }
 
-resource "google_cloud_run_service_iam_member" "cloud-run-krxs-iam" {
-      service = google_cloud_run_service.cloud-run-krxs.name
-      location = google_cloud_run_service.cloud-run-krxs.location
-      project = google_cloud_run_service.cloud-run-krxs.project
+resource "google_cloud_run_service_iam_member" "cloud-run-dkqd-iam" {
+      service = google_cloud_run_service.cloud-run-dkqd.name
+      location = google_cloud_run_service.cloud-run-dkqd.location
+      project = google_cloud_run_service.cloud-run-dkqd.project
       role = "roles/run.invoker"
       member = "allUsers"
 }
 
-resource "google_project_service" "cloud-run-krxs-service" {
+resource "google_project_service" "cloud-run-dkqd-service" {
       disable_on_destroy = false
       service = "run.googleapis.com"
+}
+
+resource "google_storage_bucket" "storage-bucket-wzml-krnf-efwh-vctc-bnrv" {
+      name = "storage-bucket-wzml-krnf-efwh-vctc-bnrv"
+      location = "us-west1"
+      project = "devxp-339721"
 }
 
 
@@ -77,7 +103,7 @@ variable "GITHUB_CLIENT_SECRET" {
     sensitive = true
 }
 
-output "cloud-run-krxs-service-url" {
-    value = google_cloud_run_service.cloud-run-krxs.status[0].url
+output "cloud-run-dkqd-service-url" {
+    value = google_cloud_run_service.cloud-run-dkqd.status[0].url
 }
 
