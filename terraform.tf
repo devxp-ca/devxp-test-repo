@@ -18,6 +18,12 @@ resource "google_storage_bucket" "terraform_backend_bucket" {
       project = "devxp-339721"
 }
 
+resource "google_storage_bucket" "storage-bucket-qjff-vmje-tocd-rhqc-fzei" {
+      name = "storage-bucket-qjff-vmje-tocd-rhqc-fzei"
+      location = "us-west1"
+      project = "devxp-339721"
+}
+
 resource "google_compute_instance" "gce-yiqx" {
       name = "gce-yiqx"
       machine_type = "f1-micro"
@@ -79,12 +85,6 @@ resource "google_cloud_run_service_iam_member" "cloud-run-dkqd-iam" {
 resource "google_project_service" "cloud-run-dkqd-service" {
       disable_on_destroy = false
       service = "run.googleapis.com"
-}
-
-resource "google_storage_bucket" "storage-bucket-wzml-krnf-efwh-vctc-bnrv" {
-      name = "storage-bucket-wzml-krnf-efwh-vctc-bnrv"
-      location = "us-west1"
-      project = "devxp-339721"
 }
 
 
